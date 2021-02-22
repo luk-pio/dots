@@ -8,3 +8,5 @@
   tasks:
     - include: core/packages.yml
     - include: core/users.yml
+
+    - include: home/cron.yml

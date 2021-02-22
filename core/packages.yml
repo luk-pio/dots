@@ -1,4 +1,5 @@
 - name: Install packages
+  tags: core
   apt: name={{item}}
   with_items:
     - tmux
