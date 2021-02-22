@@ -1,5 +1,3 @@
-- git:
-    varsion: main
 - hosts: localhost
   become: true
   pre_tasks:
