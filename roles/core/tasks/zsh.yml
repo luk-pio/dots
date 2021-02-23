@@ -57,6 +57,16 @@
     chdir: "~{{ system_username }}"
     creates: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
+- name: clone zsh-z
+  tags:
+    - skip_ansible_lint
+  become: yes
+  become_user: "{{ system_username }}"
+  command: "git clone https://github.com/agkozak/zsh-z ~{{ system_username }}/.oh-my-zsh/custom/plugins/zsh-z"
+  args:
+    chdir: "~{{ system_username }}"
+    creates: "~/.oh-my-zsh/custom/plugins/zsh-z"
+    
 - name: clone zsh powerlevel10k
   tags:
     - skip_ansible_lint
