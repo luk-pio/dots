@@ -49,13 +49,13 @@
 (evil-define-key 'visual vterm-mode-map "d" 'vterm-send-M-w)
 ;; --------------------- Org Mode ---------------------
 
-(add-to-list 'load-path "~/.emacs.d/habitrpg/habitrpg")
-(require 'habitrpg)
-(setq habitrpg-api-user "ac7bc572-4a83-4e3f-ba89-42cb95edb474")
-(setq habitrpg-api-token "5aed1d8a-84ce-4eb9-8edd-09ceab0ae91e")
-(global-set-key (kbd "C-c C-x h") 'habitrpg-add)
-(global-set-key (kbd "<f9> a") 'habitrpg-status)
-(add-hook 'org-after-todo-state-change-hook 'habitrpg-add 'append)
+;; (add-to-list 'load-path "~/.emacs.d/habitrpg/habitrpg")
+;; (require 'habitrpg)
+;; (setq habitrpg-api-user "ac7bc572-4a83-4e3f-ba89-42cb95edb474")
+;; (setq habitrpg-api-token "5aed1d8a-84ce-4eb9-8edd-09ceab0ae91e")
+;; (global-set-key (kbd "C-c C-x h") 'habitrpg-add)
+;; (global-set-key (kbd "<f9> a") 'habitrpg-status)
+;; (add-hook 'org-after-todo-state-change-hook 'habitrpg-add 'append)
 
 (require 'org-habit)
 (map! :leader

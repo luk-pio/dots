@@ -3,5 +3,5 @@ Type=Application
 Encoding=UTF-8
 Name=Doom
 Exec=/snap/bin/emacsclient -c -a emacs
-Icon=/home/l/dotfs/.doom.d/cacochan.png
+/home/l/Workspace/dots/roles/doom/files/cacochan.png
 Terminal=false
