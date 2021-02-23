@@ -26,8 +26,6 @@ function mkd() {
 }
 alias ops='eval $(op signin my)'
 
-
-
 # Virtualenvwrapper things
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Workspace

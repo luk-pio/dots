@@ -11,6 +11,7 @@
   args:
     chdir: "~{{ system_username }}"
     creates: "~/.oh-my-zsh"
+
 - name: set permissions of oh-my-zsh for users
   become: yes
   file:
@@ -26,16 +27,12 @@
     name: "{{ system_username }}"
     shell: /usr/bin/zsh
 
-- name: remove .zshrc
-  file:
-    path: "~{{ system_username }}/.zshrc"
-    state: absent
-
 - name: link .zshrc
   file:
     src: "{{ repo_dir }}/roles/core/files/.zshrc"
     path: "~{{ system_username }}/.zshrc"
     state: link
+    force: true
 
 - name: clone zsh syntax highlighting
   tags:

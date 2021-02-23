@@ -1,0 +1,68 @@
+- name: Install doom dependencies
+  apt:
+    name: ripgrep
+    name: fd-find
+
+- name: Install emacs
+  snap:
+    channel: candidate
+    classic: yes
+
+- name: Clone doom
+  tags:
+    - skip_ansible_lint
+  become: yes
+  become_user: "{{ system_username }}"
+  command: "git clone --depth 1 https://github.com/hlissner/doom-emacs ~{{ system_username }}/.emacs.d"
+  args:
+    chdir: "~{{ system_username }}"
+
+- name: Install doom
+  tags:
+    - skip_ansible_lint
+  become: yes
+  become_user: "{{ system_username }}"
+  command: "~{{ system_username }}/.emacs.d/bin/doom install"
+  args:
+    chdir: "~{{ system_username }}"
+
+- name: link .doom.d
+  file:
+    src: "{{ repo_dir }}/roles/doom/files/.doom.d"
+    path: "~{{ system_username }}/.doom.d"
+    state: link
+    force: true
+
+- name: link .doom.d
+  file:
+    src: "{{ repo_dir }}/roles/doom/files/.emacs.d/.local/etc/bookmarks"
+    path: "~{{ system_username }}/.emacs.d/.local/etc/bookmarks"
+    state: link
+    force: true
+
+- name: link service file
+  file:
+    src: "{{ repo_dir }}/roles/doom/files/emacs.service"
+    path: "~{{ system_username }}/.config/systemd/user/emacs.service"
+    state: link
+    force: true
+
+- name: systemd reread configs
+  systemd:
+    daemon_reload: yes
+    name: emacs
+    enabled: yes
+    state: started
+
+- name: update desktop file icon path
+  replace:
+    path: "{{ repo_dir }}/roles/doom/files/doom.desktop"
+    regexp: '^Icon=.*$'
+    replace: "{{ repo_dir }}/roles/doom/files/cacochan.png"
+
+
+- name: link desktop file
+  file:
+    src: "{{ repo_dir }}/roles/doom/files/doom.desktop"
+    path: "~{{ system_username }}/.local/share/applications/doom.desktop"
+    state: link

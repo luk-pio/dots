@@ -27,3 +27,6 @@
 
 - name: Setup zsh
   import_tasks: zsh.yml
+
+- name: Setup doom
+  includ_role: doom
