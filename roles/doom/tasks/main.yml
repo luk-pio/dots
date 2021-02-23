@@ -24,7 +24,7 @@
     - skip_ansible_lint
   become: yes
   become_user: "{{ system_username }}"
-  shell: "echo 'y' 'n' | ~{{ system_username }}/.emacs.d/bin/doom install"
+  shell: "echo 'y' 'n' | ~{{ system_username }}/.emacs.d/bin/doom install --no-env --no-fonts"
   args:
     chdir: "~{{ system_username }}"
 
