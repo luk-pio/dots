@@ -68,10 +68,8 @@
 
 - name: systemd reread configs
   systemd:
+    scope: user
     daemon_reload: yes
-
-- name: start the emacs service
-  service:
     name: emacs
     enabled: yes
     state: started
