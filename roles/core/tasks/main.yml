@@ -1,8 +1,8 @@
-- name: Installs core packages
-  import_tasks: packages.yml
-
 - name: Creates the ansible user and adds to sudoers
   import_tasks: users.yml
 
 - name: Creates cron job to sync this repo every 10 mins
   import_tasks: cron.yml
+
+- name: Installs core packages
+  import_tasks: packages.yml
