@@ -1,11 +1,11 @@
 - hosts: localhost
   become: true
+  vars_files:
+    - vars.yml
   pre_tasks:
     - name: update repositories
       apt: update_cache=yes
       changed_when: False
-    - name: define the kind of system we want to install for
-      install_type: "home"
   tasks:
     - name: Include the core role, passing the install type as an argument
       include_role:
