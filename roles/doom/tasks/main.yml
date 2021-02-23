@@ -72,7 +72,7 @@
 - name: link service file
   file:
     src: "~{{ system_username }}/.config/systemd/user/emacs.service"
-    path: "~{{ system_username }}/.config/systemd/user/defualt.target.wants/emacs.service"
+    path: "~{{ system_username }}/.config/systemd/user/default.target.wants/emacs.service"
     state: link
     force: true
 
