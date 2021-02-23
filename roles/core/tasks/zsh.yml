@@ -24,7 +24,7 @@
   become: yes
   user:
     name: "{{ system_username }}"
-    shell: /bin/zsh
+    shell: /usr/bin/zsh
 
 - name: remove .zshrc
   file:
