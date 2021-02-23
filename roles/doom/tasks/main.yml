@@ -9,7 +9,7 @@
     channel: candidate
     classic: yes
 
-- name: Install doom
+- name: Install doom with clean 
   block:
     - name: Clone doom
       tags:
@@ -69,6 +69,9 @@
 - name: systemd reread configs
   systemd:
     daemon_reload: yes
+
+- name: start the emacs service
+  service:
     name: emacs
     enabled: yes
     state: started
