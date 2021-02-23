@@ -29,7 +29,7 @@
       shell: "yes | ~{{ system_username }}/.emacs.d/bin/doom install --no-env --no-fonts"
       args:
         chdir: "~{{ system_username }}"
-    rescue:
+  rescue:
       - name: Clean .emacs.d
         file:
           path: "~{{ system_username }}/.emacs.d"
