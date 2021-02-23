@@ -1,4 +1,3 @@
 - name: Install git
   apt:
-    name: git
     name: curl

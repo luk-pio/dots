@@ -7,6 +7,9 @@
 - name: Installs core packages
   import_tasks: packages.yml
 
+- name: Setup python 
+  import_tasks: python.yml
+
 - name: Setup git
   import_tasks: git.yml
 
