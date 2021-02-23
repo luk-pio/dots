@@ -10,8 +10,6 @@
     - name: Include the core role, passing the install type as an argument
       include_role:
         name: core
-      vars:
-        install_type: install_type
 
     - name: Include the home role
       include_role:
