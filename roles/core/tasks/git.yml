@@ -15,4 +15,4 @@
 
 - file:
     path: ~/.git-credentials
-    scope: touch
+    state: touch
