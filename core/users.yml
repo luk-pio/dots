@@ -1,7 +1,0 @@
-- name: create ansible user
-  tags: core
-  user: name=ansible uid=900
-
-- name: copy sudoers_ansible
-  tags: core
-  copy: src=core/files/sudoers_ansible dest=/etc/sudoers.d/ansible owner=root group=root mode=0440

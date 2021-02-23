@@ -1,0 +1,5 @@
+- name: Installs core packages
+  import_tasks: packages.yml
+
+- name: Creates the ansible user and adds to sudoers
+  import_tasks: users.yml
