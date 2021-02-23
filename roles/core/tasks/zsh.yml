@@ -26,13 +26,13 @@
     name: "{{ system_username }}"
     shell: /bin/zsh
 
-- name: link .zshrc
+- name: remove .zshrc
   file:
     path: "~{{ system_username }}/.zshrc"
     state: absent
 
 - name: link .zshrc
   file:
-    src: 'files/.zshrc'
+    src: "{{ role_path }}/files/.zshrc"
     path: "~{{ system_username }}/.zshrc"
     state: link
