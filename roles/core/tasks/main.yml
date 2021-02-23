@@ -13,6 +13,12 @@
     dest: /usr/share/fonts/Hack_Regular_Nerd_Font_Mono.ttf
     mode: '644'
 
+- name: link aliases
+  file:
+    src: "{{ repo_dir }}/roles/core/files/aliasrc"
+    path: "~{{ system_username }}/.config/aliasrc"
+    state: link
+
 - name: Setup python 
   import_tasks: python.yml
 
