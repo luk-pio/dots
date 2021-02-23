@@ -1,0 +1,13 @@
+[Unit]
+Description=Emacs daemon
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=forking
+ExecStart=/snap/bin/emacs --daemon
+ExecStop=/snap/bin/emacsclient --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
+Restart=always
+
+[Install]
+WantedBy=default.target
+

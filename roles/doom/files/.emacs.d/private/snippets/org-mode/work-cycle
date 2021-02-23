@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: work-cycle
+# key: wc
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+**** Work Cycle $0
+--------------------
+
+_Before_
++ What am I trying to accomplish?
+$1
++ How will I get started?
+$2
++ Any hazards present?
+$3
++ Energy?
+$4
++ Morale?
+$5
+--------------------
+
+_After_
++ Completed Cycle target?
+$6
++ Anything noteworthy?
+$7
++ Any distractions?
+$8
++ Things to improve for the next cycle?
+$9
+--------------------

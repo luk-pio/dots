@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Doom
+Exec=/snap/bin/emacsclient -c -a emacs
+Icon=/home/l/dotfs/.doom.d/cacochan.png
+Terminal=false

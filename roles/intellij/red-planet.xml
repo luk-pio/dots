@@ -1,0 +1,25 @@
+<mtTheme>
+  <id>RP</id>
+  <editorColorsScheme>Red Planet</editorColorsScheme>
+  <dark>true</dark>
+  <name>Red Planet</name>
+  <colors>
+    <color id="background" value="222222ff"/>
+    <color id="foreground" value="c2b790ff"/>
+    <color id="text" value="676767ff"/>
+    <color id="highlight" value="425b67ff"/>
+    <color id="selectionBackground" value="546e7aff"/>
+    <color id="selectionForeground" value="ffffffff"/>
+    <color id="button" value="2e3c43ff"/>
+    <color id="secondaryBackground" value="32424aff"/>
+    <color id="disabled" value="415967ff"/>
+    <color id="contrast" value="1e272cff"/>
+    <color id="tableSelected" value="314549ff"/>
+    <color id="secondBorder" value="2a373eff"/>
+    <color id="treeSelection" value="546e7a50"/>
+    <color id="notifications" value="323232ff"/>
+    <color id="accent" value="69819eff"/>
+    <color id="excluded" value="2e3c43ff"/>
+  </colors>
+  <themeId>RP</themeId>
+</mtTheme>

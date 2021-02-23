@@ -1,0 +1,135 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8-emacs -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("aug proj"
+ (filename . "~/Workspace/programming_practice/aug/lex/project/")
+ (front-context-string . "sql.tab.c\n  -rw-")
+ (rear-context-string . "1K lut  1 23:37 ")
+ (position . 416))
+("Main.org"
+ (filename . "~/Workspace/Engineering-Thesis/paper/Main.org")
+ (front-context-string . "rk\n*** Conclusio")
+ (rear-context-string . "ns for future wo")
+ (position . 4858))
+("xresourcwes"
+ (filename . "~/dotfs/.config/regolith/Xresources")
+ (front-context-string)
+ (rear-context-string . "inner.size: 60\n\n")
+ (position . 99))
+("projects"
+ (filename . "~/Dropbox/org/gtd/projects.org")
+ (front-context-string . "#+TITLE: Project")
+ (rear-context-string)
+ (position . 1))
+("maybe_someday"
+ (filename . "~/Dropbox/org/gtd/maybe_someday.org")
+ (front-context-string . "#+TITLE: Maybe_s")
+ (rear-context-string)
+ (position . 1))
+("discrete_fourier_transform.py"
+ (filename . "~/Workspace/programming_practice/")
+ (front-context-string)
+ (rear-context-string . "ilable 76.1 GiB\n")
+ (position . 93))
+("onyx"
+ (filename . "~/Dropbox/onyx/")
+ (front-context-string)
+ (rear-context-string . "0K wrz 12 10:41 ")
+ (position . 244))
+("gtd"
+ (filename . "~/Dropbox/org/gtd/")
+ (front-context-string . "weekly_trigger_l")
+ (rear-context-string . "6K paź  4 10:00 ")
+ (position . 750))
+("habits"
+ (filename . "~/Dropbox/org/gtd/habits.org")
+ (front-context-string . "TODO Meditation\n")
+ (rear-context-string . "ITLE: Habits\n\n* ")
+ (position . 20))
+("org-capture-last-stored-marker"
+ (filename . "~/Dropbox/org/gtd/projects.org")
+ (front-context-string . "** TODO Implemen")
+ (rear-context-string . "fort:   4\n:END:\n")
+ (position . 3858))
+("next"
+ (filename . "~/Dropbox/org/gtd/next.org")
+ (front-context-string . "#+TITLE: Next\n* ")
+ (rear-context-string)
+ (position . 1))
+("org-refile-last-stored"
+ (filename . "~/Dropbox/org/gtd/next.org")
+ (front-context-string . "* TODO [#A] Shor")
+ (rear-context-string . " for this task?\n")
+ (position . 4884))
+("org"
+ (filename . "~/Dropbox/org/")
+ (front-context-string . "roam\n  -rw-r--r-")
+ (rear-context-string . "2K wrz 26 16:08 ")
+ (position . 199))
+("dropbox"
+ (filename . "~/Dropbox/")
+ (front-context-string . "org\n  drwxr-xr-x")
+ (rear-context-string . "0K wrz 15 10:01 ")
+ (position . 161))
+("audioviz"
+ (filename . "~/Workspace/audioviz/")
+ (front-context-string . "data\n  drwxrwxr-")
+ (rear-context-string . "0K wrz  8 11:42 ")
+ (position . 160))
+("tasks"
+ (filename . "~/Dropbox/org/tasks.org")
+ (front-context-string . "]--[2020-09-20 n")
+ (rear-context-string . "-09-20 nie 16:35")
+ (position . 3131))
+("zshrc"
+ (filename . "~/dotfs/.zshrc")
+ (front-context-string . "# Enable Powerle")
+ (rear-context-string)
+ (position . 1))
+("org-capture-last-stored"
+ (filename . "~/Dropbox/org/gtd/inbox.org")
+ (front-context-string . "* TODO Shorten s")
+ (rear-context-string . " for this task?\n")
+ (position . 1713))
+("aliasrc"
+ (filename . "~/dotfs/.config/aliasrc")
+ (front-context-string . "export GOPATH=$H")
+ (rear-context-string)
+ (position . 1))
+("Workspace"
+ (filename . "~/Workspace/")
+ (front-context-string)
+ (rear-context-string . " 18:42 audioviz\n")
+ (position . 176))
+("home"
+ (filename . "~/")
+ (front-context-string . ".emacs.d\n  drwxr")
+ (rear-context-string . "0K sie 17 11:53 ")
+ (position . 426))
+("dotfs"
+ (filename . "~/dotfs/")
+ (front-context-string . ".emacs.d\n  drwxr")
+ (rear-context-string . "0K wrz  6 20:13 ")
+ (position . 199))
+("i3conf"
+ (filename . "~/dotfs/.config/regolith/i3/config")
+ (front-context-string . "################")
+ (rear-context-string)
+ (position . 1))
+("install-ubuntu"
+ (filename . "~/dotfs/install-ubuntu.sh")
+ (front-context-string . "-p \"$HOME/.confi")
+ (rear-context-string . "init.el\"\n	mkdir ")
+ (position . 1301))
+("Thesis"
+ (filename . "~/Workspace/Engineering-Thesis/")
+ (front-context-string . "Main.org\n  -rw-r")
+ (rear-context-string . "8K sty 19 15:57 ")
+ (position . 476))
+("Downloads"
+ (filename . "~/Downloads/")
+ (front-context-string . "install-tl-20200")
+ (rear-context-string . "0K lip 19 10:41 ")
+ (position . 111))
+)
