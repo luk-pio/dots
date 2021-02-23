@@ -12,3 +12,7 @@
     name: credentials.helper
     scope: global
     value: store
+
+- file:
+    path: ~/.git-credentials
+    scope: touch
