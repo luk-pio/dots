@@ -7,7 +7,7 @@
       apt: update_cache=yes
       changed_when: False
   tasks:
-    - name: Include the core role, passing the install type as an argument
+    - name: Include the core role
       include_role:
         name: core
 
