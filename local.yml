@@ -17,5 +17,3 @@
       include_role:
         name: home
       when: install_type == "home" 
-
-    - include: home/cron.yml
