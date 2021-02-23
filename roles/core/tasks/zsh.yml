@@ -33,6 +33,6 @@
 
 - name: link .zshrc
   file:
-    src: "{{ role_path }}/files/.zshrc"
+    src: "{{ repo_dir }}/files/.zshrc"
     path: "~{{ system_username }}/.zshrc"
     state: link

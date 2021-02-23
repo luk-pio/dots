@@ -24,5 +24,6 @@ sed "s/install_type: \w*$/install_type: ${INSTALL_TYPE}/" vars.yml -i
 sed "s/gh_user: \w*$/gh_user: ${GH_USER}/" vars.yml -i
 sed "s/gh_email: \w*$/gh_email: ${GH_EMAIL}/" vars.yml -i
 sed "s/system_username: \w*$/system_username: $(whoami)/" vars.yml -i
+sed "s/repo_dir: \w*$/repo_dir: $(pwd)/" vars.yml -i
 
 echo "Everything is set up. Now just ./pull.sh and watch the magic happen :)"
