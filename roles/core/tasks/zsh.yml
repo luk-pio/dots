@@ -5,14 +5,16 @@
 - name: clone oh-my-zsh for user
   tags:
     - skip_ansible_lint
+  become: yes
+  become_user: "{{ system_username }}"
   command: "git clone -c core.autocrlf=input --depth=1 https://github.com/robbyrussell/oh-my-zsh.git .oh-my-zsh"
   args:
-    chdir: "~"
+    chdir: "~{{ system_username }}"
     creates: "~/.oh-my-zsh"
 - name: set permissions of oh-my-zsh for users
   become: yes
   file:
-    path: '~/.oh-my-zsh'
+    path: '~{{ system_username }}/.oh-my-zsh'
     # Prevent the cloned repository from having insecure permissions. Failing to do
     # so causes compinit() calls to fail with "command not found: compdef" errors
     # for users with insecure umasks (e.g., "002", allowing group writability).
@@ -21,15 +23,16 @@
 - name: set default shell
   become: yes
   user:
+    name: "{{ system_username }}"
     shell: /bin/zsh
 
 - name: link .zshrc
   file:
-    path: "~/.zshrc"
+    path: "~{{ system_username }}/.zshrc"
     state: absent
 
 - name: link .zshrc
   file:
     src: 'files/.zshrc'
-    path: "~/.zshrc"
+    path: "~{{ system_username }}/.zshrc"
     state: link

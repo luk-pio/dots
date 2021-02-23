@@ -7,13 +7,6 @@
 - name: Installs core packages
   import_tasks: packages.yml
 
-- name: Get current username
-  become: false
-  local_action: command whoami
-  register: username
-
-- debug: var=username
-
 - name: Setup git
   import_tasks: git.yml
 
