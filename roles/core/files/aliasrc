@@ -32,12 +32,8 @@ alias ops='eval $(op signin my)'
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Workspace
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export VIRTUALENVWRAPPER_VIRTUALENV="$HOME/.local/bin/virtualenv"
-source "$HOME/.local/bin/virtualenvwrapper.sh"
-
-# Go
-export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/.local/bin:/usr/local/bin/custom:/usr/local/go/bin:$GOPATH/bin
+export VIRTUALENVWRAPPER_VIRTUALENV="/usr/local/bin/virtualenv"
+source "/usr/local/bin/virtualenvwrapper.sh"
 
 # Work
 alias a%cdsp='~/PycharmProjects/CDSP'
