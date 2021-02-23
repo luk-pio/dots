@@ -1,0 +1,14 @@
+- git_config:
+    name: user.email
+    scope: global
+    value: "{{gh_email}}"
+
+- git_config:
+    name: user.name
+    scope: global
+    value: "{{gh_user}}"
+
+- git_config:
+    name: credentials.helper
+    scope: global
+    value: store
