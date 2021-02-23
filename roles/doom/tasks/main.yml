@@ -9,6 +9,11 @@
     channel: candidate
     classic: yes
 
+- name: Clean .emacs.d
+  file:
+    path: "~{{ system_username }}/.emacs.d"
+    state: absent
+
 - name: Clone doom
   tags:
     - skip_ansible_lint
@@ -17,7 +22,6 @@
   command: "git clone --depth 1 https://github.com/hlissner/doom-emacs ~{{ system_username }}/.emacs.d"
   args:
     chdir: "~{{ system_username }}"
-    creates: "~{{ system_username }}/.emacs.d"
 
 - name: Install doom
   tags:
