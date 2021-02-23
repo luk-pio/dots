@@ -1,0 +1,1 @@
+sh -c "$(wget -O- https://raw.githubusercontent.com/luk-pio/dots/main/install.sh)"
