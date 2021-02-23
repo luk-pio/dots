@@ -59,10 +59,22 @@
     state: directory
     mode: "0775"
     
-- name: link service file
+- name: cp doom service file
   copy:
     src: "{{ repo_dir }}/roles/doom/files/emacs.service"
     dest: "~{{ system_username }}/.config/systemd/user/emacs.service"
+
+- name: Make systemd dir for enabled services
+  file:
+    path: "~{{ system_username }}/.config/systemd/user/default.target.wants"
+    state: directory
+
+- name: link service file
+  file:
+    src: "~{{ system_username }}/.config/systemd/user/emacs.service"
+    path: "~{{ system_username }}/.config/systemd/user/defualt.target.wants/emacs.service"
+    state: link
+    force: true
 
 - name: systemd reread configs
   become: yes
