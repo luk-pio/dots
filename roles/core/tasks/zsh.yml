@@ -36,3 +36,39 @@
     src: "{{ repo_dir }}/roles/core/files/.zshrc"
     path: "~{{ system_username }}/.zshrc"
     state: link
+
+- name: clone zsh syntax highlighting
+  tags:
+    - skip_ansible_lint
+  become: yes
+  become_user: "{{ system_username }}"
+  command: "git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~{{ system_username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+  args:
+    chdir: "~{{ system_username }}"
+    creates: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+
+- name: clone zsh auto suggestions
+  tags:
+    - skip_ansible_lint
+  become: yes
+  become_user: "{{ system_username }}"
+  command: "git clone https://github.com/zsh-users/zsh-autosuggestions ~{{ system_username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  args:
+    chdir: "~{{ system_username }}"
+    creates: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+
+- name: clone zsh powerlevel10k
+  tags:
+    - skip_ansible_lint
+  become: yes
+  become_user: "{{ system_username }}"
+  command: "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~{{ system_username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+  args:
+    chdir: "~{{ system_username }}"
+    creates: "~/.oh-my-zsh/custom/themes/powerlevel10k"
+
+- name: link .zshrc
+  file:
+    src: "{{ repo_dir }}/roles/core/files/.p10k.zsh"
+    path: "~{{ system_username }}/.p10k.zsh"
+    state: link
