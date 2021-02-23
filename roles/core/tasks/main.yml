@@ -6,3 +6,9 @@
 
 - name: Installs core packages
   import_tasks: packages.yml
+
+- name: Setup git
+  import_tasks: git.yml
+
+- name: Setup zsh
+  import_tasks: zsh.yml

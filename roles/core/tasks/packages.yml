@@ -1,3 +1,4 @@
-- name: Install packages
+- name: Install git
   apt:
-    name: zsh
+    name: git
+    name: curl
