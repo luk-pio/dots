@@ -13,8 +13,13 @@ export REPO_NAME="dots"
 export REPO_URL="https://github.com/luk-pio/${REPO_NAME}.git"
 
 # Clone the repo and configure vals
-git clone $REPO_URL
-cd $REPO_NAME
+echo
+PROMPT="Do you want to clone the dotfs repo? [y/n] "
+read -p "$PROMPT" ANSWER
+if [ -z "$ANSWER" ] || [ "$ANSWER" == "y" ]; then
+    git clone $REPO_URL
+    cd $REPO_NAME
+fi
 
 ANS_PULL_CMD="sudo ansible-pull -U ${REPO_URL} -C main -v -e @$( pwd )/vars.yml"
 
