@@ -33,6 +33,7 @@
       - name: Clean .emacs.d
         file:
           path: "~{{ system_username }}/.emacs.d"
+          state: absent
 
 - name: Clean .doom.d
   file:
