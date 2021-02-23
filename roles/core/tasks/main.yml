@@ -7,6 +7,12 @@
 - name: Installs core packages
   import_tasks: packages.yml
 
+- name: Download hack font
+  get_url:
+    url: https://raw.githubusercontent.com/pyrho/hack-font-ligature-nerd-font/master/font/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf 
+    dest: /usr/share/fonts/Hack_Regular_Nerd_Font_Mono.ttf
+    mode: '644'
+
 - name: Setup python 
   import_tasks: python.yml
 
