@@ -2,10 +2,15 @@
 set -euo pipefail
 
 # Install ansible
-sudo apt-get install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install ansible
+echo
+PROMPT="Do you want to install ansible? [y/n] "
+read -p "$PROMPT" ANSWER
+if [ -z "$ANSWER" ] || [ "$ANSWER" == "y" ]; then
+    sudo apt-get install software-properties-common
+    sudo apt-add-repository ppa:ansible/ansible
+    sudo apt-get update
+    sudo apt-get install ansible
+fi
 
 # Install git
 sudo apt install -y git
