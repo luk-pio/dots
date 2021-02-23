@@ -60,11 +60,9 @@
     mode: "0775"
     
 - name: link service file
-  file:
+  copy:
     src: "{{ repo_dir }}/roles/doom/files/emacs.service"
-    path: "~{{ system_username }}/.config/systemd/user/emacs.service"
-    state: link
-    force: true
+    dest: "~{{ system_username }}/.config/systemd/user/emacs.service"
 
 - name: systemd reread configs
   become: yes
