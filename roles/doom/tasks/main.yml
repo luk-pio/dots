@@ -9,11 +9,6 @@
     channel: candidate
     classic: yes
 
-- name: Clean .emacs.d
-  file:
-    path: "~{{ system_username }}/.emacs.d"
-    state: absent
-
 - name: Clone doom
   tags:
     - skip_ansible_lint
