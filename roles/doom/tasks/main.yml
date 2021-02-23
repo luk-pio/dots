@@ -67,12 +67,20 @@
     force: true
 
 - name: systemd reread configs
+  become: yes
+  become_user: "{{ system_username }}"
   systemd:
     scope: user
     daemon_reload: yes
+
+- name: start the emacs service
+  become: yes
+  become_user: "{{ system_username }}"
+  systemd:
+    scope: user
     name: emacs
-    enabled: yes
     state: started
+    enabled: yes
 
 - name: update desktop file icon path
   replace:
