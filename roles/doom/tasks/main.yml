@@ -17,6 +17,7 @@
   command: "git clone --depth 1 https://github.com/hlissner/doom-emacs ~{{ system_username }}/.emacs.d"
   args:
     chdir: "~{{ system_username }}"
+    creates: "~{{ system_username }}/.emacs.d"
 
 - name: Install doom
   tags:
