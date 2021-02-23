@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 # Install ansible
 sudo apt-get install software-properties-common
