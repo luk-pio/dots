@@ -2,4 +2,4 @@
 
 - name: install cron job (ansible-pull)
   tags: home
-  cron: user="ansible" name="ansible provision" minute="*/10" job="/usr/bin/ansible-pull -o -U https://github.com/luk-pio/dots.git -C main > /dev/null"
+  cron: user="ansible" name="ansible provision" minute="*/10" job="{{ pull_cmd }} > /dev/null"
