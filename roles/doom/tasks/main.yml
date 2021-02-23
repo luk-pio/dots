@@ -5,6 +5,7 @@
 
 - name: Install emacs
   snap:
+    name: emacs
     channel: candidate
     classic: yes
 
