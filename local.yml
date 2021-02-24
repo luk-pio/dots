@@ -7,11 +7,11 @@
       apt: update_cache=yes
       changed_when: False
 
+  tasks:
     - name: Install dropbox role from Ansible Galaxy
-      command: ansible-galaxy install {{ item.item }}
+      command: ansible-galaxy install {{ item }}
       with_items:
         - alban.andrieu.dropbox
-  tasks:
     - name: Include the core role
       include_role:
         name: core
