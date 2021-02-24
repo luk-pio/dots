@@ -12,6 +12,13 @@
   template:
     src: dropbox.service
     dest: "~{{ system_username }}/.config/systemd/user/dropbox.service"
+    
+- name: link service file
+  file:
+    src: "~{{ system_username }}/.config/systemd/user/emacs.service"
+    path: "~{{ system_username }}/.config/systemd/user/multi-user.target.wants/dropbox.service"
+    state: link
+    force: true
 
 - name: systemd reread configs
   become: yes
