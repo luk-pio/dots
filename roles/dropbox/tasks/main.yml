@@ -38,7 +38,6 @@
   systemd:
     scope: user
     name: dropbox
-    state: started
     enabled: yes
 
 - name: dropbox | Check dropboxd status
