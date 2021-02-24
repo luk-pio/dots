@@ -12,6 +12,11 @@
   template:
     src: dropbox.service
     dest: "~{{ system_username }}/.config/systemd/user/dropbox.service"
+
+- name: Make systemd dir for enabled services
+  file:
+    path: "~{{ system_username }}/.config/systemd/user/multi-user.target.wants"
+    state: directory
     
 - name: link service file
   file:
@@ -43,3 +48,6 @@
 - name: dropbox | Start dropboxd
   shell: dropbox start >/dev/null 2>&1
   when: status.stdout == "Dropbox isn't running!"
+
+- name: dropbox | add exclude
+  shell: "cat {{ repo_dir }}/roles/dropbox/files/excluded.txt | xargs dropbox exclude add"

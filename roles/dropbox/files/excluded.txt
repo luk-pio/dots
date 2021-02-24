@@ -1,0 +1,8 @@
+../../Dropbox/Apps
+../../Dropbox/Mama
+../../Dropbox/Sent files
+../../Dropbox/Vault.dbx-vault
+../../Dropbox/VirtualBox
+../../Dropbox/Workspace
+../../Dropbox/Workspace/Documents
+../../Dropbox/old_data
