@@ -11,7 +11,8 @@
     - name: Install dropbox role from Ansible Galaxy
       command: ansible-galaxy install {{ item }}
       with_items:
-        - alban.andrieu.dropbox
+        - oefenweb.dropbox
+
     - name: Include the core role
       include_role:
         name: core
