@@ -28,6 +28,13 @@
 - name: Setup zsh
   import_tasks: zsh.yml
 
+- name: Setup Dropbox
+  include_role:
+    name: alban.andrieu.dropbox
+    vars:
+      - user: {{ system.username }}
+      - dropbox_user_host: localhost
+
 - name: Setup doom
   include_role:
     name: doom
