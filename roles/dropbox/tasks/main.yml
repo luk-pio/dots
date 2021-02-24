@@ -3,8 +3,9 @@
     name: oefenweb.dropbox
 
 - name: dropbox | Install Dropbox
-  shell: curl -L "https://www.dropbox.com/download?plat=lnx.x86_64" | tar -C $HOME -xzf
+  shell: wget -O "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
   args:
+    chdir: "~{{ system_username }}"
     creates: "{{ system_username }}/.dropbox-dist/dropboxd"
 
 - name: dropbox | Copy the unit file
