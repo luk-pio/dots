@@ -423,3 +423,7 @@
 ;; Also in visual mode
 
 (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+
+(require 'evil-replace-with-register)
+(setq evil-replace-with-register-key (kbd "gr"))
+(evil-replace-with-register-install)

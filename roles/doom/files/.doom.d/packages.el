@@ -49,6 +49,9 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+(package! evil-replace-with-register
+  :recipe (:host github :repo "Dewdrops/evil-ReplaceWithRegister"))
+
 (package! org-ref)
 
 (package! mixed-pitch)
