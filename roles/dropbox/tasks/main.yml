@@ -62,4 +62,4 @@
       file:
         path: "~{{ system_username }}/Dropbox"
         state: directory
-  when: dropbox_dir.stat.isdir is defined and dropbox.stat.isdir
+  when: dropbox_dir.stat.isdir is defined and dropbox_dir.stat.isdir
