@@ -81,7 +81,7 @@ if [ "$pull_flag" == "true" ]; then
     # Update the cron pull cmd
     CRON_PULL_CMD="cd $(pwd); ./install.sh -p"
     ESCAPED_CRON_PULL_CMD=$(printf '%s\n' "$CRON_PULL_CMD" | sed 's:[\\/&]:\\&:g;$!s/$/\\/')
-    sed "s/cron_pull_cmd: .*$/cron_pull_cmd: '${CRON_PULL_CMD}'/" vars.yml -i
+    sed "s/cron_pull_cmd: .*$/cron_pull_cmd: '${ESCAPED_CRON_PULL_CMD}'/" vars.yml -i
 
     ANS_PULL_CMD="sudo ansible-pull -U ${REPO_URL} -C main -v -e @$( pwd )/vars.yml"
     $ANS_PULL_CMD
