@@ -8,7 +8,8 @@
       changed_when: False
 
   tasks:
-    - name: Install dropbox role from Ansible Galaxy
+    - name: Install dropbox role from Ansible Galaxy 
+      # TODO should remove this dependency
       command: ansible-galaxy install {{ item }}
       with_items:
         - oefenweb.dropbox

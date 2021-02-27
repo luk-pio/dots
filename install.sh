@@ -61,17 +61,28 @@ if [ "$git_flag" == "true" ]; then
 fi
 
 
+# 1) Get the repo url, update vars.yml (in case GH_USER or repository CWD changed).
+# 2) Pull the repository
+# 3) Ansible Pull
 if [ "$pull_flag" == "true" ]; then
+    
+    # Get the username from vars.yml
     GH_USER=$(grep -Po 'gh_user: \K.+' vars.yml)
     REPO_URL="https://github.com/${GH_USER}/${REPO_NAME}.git"
-    ANS_PULL_CMD="sudo ansible-pull -U ${REPO_URL} -C main -v -e @$( pwd )/vars.yml"
-    ESCAPED_CWD=$(printf '%s\n' "$(pwd)" | sed 's:[\\/&]:\\&:g;$!s/$/\\/')
 
+    git pull
+    # Update the local path to this repository
+    # We do this every time in case a "git pull" command overwrites
+    # TODO maybe vars.yml could be added to .gitignore to simplify
+    ESCAPED_CWD=$(printf '%s\n' "$(pwd)" | sed 's:[\\/&]:\\&:g;$!s/$/\\/')
     sed "s/system_username: \w*$/system_username: $(whoami)/" vars.yml -i
     sed "s/repo_dir: .*$/repo_dir: ${ESCAPED_CWD}/" vars.yml -i
 
-    ESCAPED_PULL_CMD=$(printf '%s\n' "$ANS_PULL_CMD" | sed 's:[\\/&]:\\&:g;$!s/$/\\/')
-    sed "s/pull_cmd: .*$/pull_cmd: '${ESCAPED_PULL_CMD}'/" vars.yml -i
-    git pull
+    # Update the cron pull cmd
+    CRON_PULL_CMD="cd $(pwd); ./install.sh -p"
+    ESCAPED_CRON_PULL_CMD=$(printf '%s\n' "$CRON_PULL_CMD" | sed 's:[\\/&]:\\&:g;$!s/$/\\/')
+    sed "s/cron_pull_cmd: .*$/cron_pull_cmd: '${CRON_PULL_CMD}'/" vars.yml -i
+
+    ANS_PULL_CMD="sudo ansible-pull -U ${REPO_URL} -C main -v -e @$( pwd )/vars.yml"
     $ANS_PULL_CMD
 fi

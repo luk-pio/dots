@@ -89,7 +89,7 @@
  (position . 1))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/gtd/inbox.org")
- (front-context-string . "* TODO SQL exerc")
+ (front-context-string . "* TODO [[https:/")
  (rear-context-string . " for this task?\n")
  (position . 2157))
 ("aliasrc"
