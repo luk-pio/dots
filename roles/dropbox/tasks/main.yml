@@ -1,4 +1,4 @@
--name: Install, configure and start Dropbox
+- name: Install, configure and start Dropbox
   block:
     - name: Setup Dropbox
       include_role:
