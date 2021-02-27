@@ -3,11 +3,6 @@
     path: "~{{ system_username }}/Dropbox"
   register: dropbox_dir
 
-- name: check if Dropbox enabled
-  systemd:
-    name: dropbox
-    state: yes
-    user: yes
 - name: Install, configure and start Dropbox
   block:
     - name: Setup Dropbox
