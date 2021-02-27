@@ -97,7 +97,7 @@
   replace:
     path: "{{ repo_dir }}/roles/doom/files/doom.desktop"
     regexp: '^Icon=.*$'
-    replace: "Icon={{ repo_dir }}/roles/doom/files/cacochan.png"
+    replace: "Icon={{ repo_dir }}/roles/doom/files/splash.png"
 
 - name: link desktop file
   file:
