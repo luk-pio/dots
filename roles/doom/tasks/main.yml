@@ -36,6 +36,7 @@
           state: absent
 
 - name: Clean .doom.d
+  become: yes
   file:
     path: "~{{ system_username }}/.doom.d"
     state: absent
