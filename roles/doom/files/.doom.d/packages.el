@@ -48,10 +48,6 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(package! org-roam-server
-  :recipe (:host github :repo "org-roam/org-roam-server"))
-(use-package org-pdftools
-  :hook (org-mode . org-pdftools-setup-link))
 
 (package! org-ref)
 

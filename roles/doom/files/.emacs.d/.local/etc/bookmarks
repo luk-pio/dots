@@ -59,9 +59,9 @@
  (position . 1))
 ("org-refile-last-stored"
  (filename . "~/Dropbox/org/gtd/next.org")
- (front-context-string . "* TODO [#A] Shor")
+ (front-context-string . "* TODO SQL exerc")
  (rear-context-string . " for this task?\n")
- (position . 4884))
+ (position . 5251))
 ("org"
  (filename . "~/Dropbox/org/")
  (front-context-string . "roam\n  -rw-r--r-")
@@ -89,9 +89,9 @@
  (position . 1))
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/gtd/inbox.org")
- (front-context-string . "* TODO Shorten s")
+ (front-context-string . "* TODO SQL exerc")
  (rear-context-string . " for this task?\n")
- (position . 1713))
+ (position . 2157))
 ("aliasrc"
  (filename . "~/dotfs/.config/aliasrc")
  (front-context-string . "export GOPATH=$H")
