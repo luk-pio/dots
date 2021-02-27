@@ -1,2 +1,2 @@
 - name: Set gnome settings
-  script: "~{{ repo_dir }}/roles/gnome/files/gnome-settings.sh"
+  script: "{{ repo_dir }}/roles/gnome/files/gnome-settings.sh"
