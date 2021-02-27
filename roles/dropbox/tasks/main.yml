@@ -1,5 +1,7 @@
-- name Populate service facts
-  service_facts:
+- name: Check if this role has already run to completion
+  stat:
+    path: "~{{ system_username }}/Dropbox"
+  register: dropbox_dir
 
 - name: check if Dropbox enabled
   systemd:
@@ -65,4 +67,4 @@
       file:
         path: "~{{ system_username }}/Dropbox"
         state: directory
-  when: "'dropbox' in ansible_facts.services"
+  when: dropbox_dir.stat.isdir is defined and dropbox.stat.isdir
