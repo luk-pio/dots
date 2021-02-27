@@ -1,3 +1,11 @@
+- name Populate service facts
+  service_facts:
+
+- name: check if Dropbox enabled
+  systemd:
+    name: dropbox
+    state: yes
+    user: yes
 - name: Install, configure and start Dropbox
   block:
     - name: Setup Dropbox
@@ -57,5 +65,4 @@
       file:
         path: "~{{ system_username }}/Dropbox"
         state: directory
-  args:
-    creates: "~{{ system_username }}/Dropbox"
+  when: "'dropbox' in ansible_facts.services"
