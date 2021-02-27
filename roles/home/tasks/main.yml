@@ -1,3 +1,3 @@
-- name: Gnome settings
-  include-role:
+- name: Setup gnome settings
+  include_role:
     name: gnome
