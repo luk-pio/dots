@@ -1,0 +1,904 @@
+#+property: header-args:elisp :tangle config.el
+#+startup: fold
+
+#+TITLE: Doom Emacs config
+#+author: Luke Piotrak
+#+email: luke.piotrak
+
+My Doom Emacs configuration. Most snippets have been copied from various places, including:
+
+ - [[https://github.com/jethrokuan/dots/blob/master/.doom.d/config.el][jethrokuan/dots]]
+ - [[https://tecosaur.github.io/emacs-config/config.html][tecosaur's emacs config]]
+
+If you'd like to roll your own literate config I highly recommend the [[https://leanpub.com/lit-config/read][excellent guide]] by [[https://zzamboni.org/post/][Diego Zamboni]].
+
+* Table of contents :TOC_4:noexport:
+- [[#useful-resources][Useful resources]]
+- [[#a-note-on-this-files-structure][A note on this file's structure]]
+- [[#literate-config-setup][Literate config setup]]
+- [[#general][General]]
+- [[#custom-keymap][Custom Keymap]]
+- [[#appearance][Appearance]]
+- [[#org][Org]]
+  - [[#general-org-mode][General Org-mode]]
+  - [[#org-agenda-and-gtd][Org Agenda and GTD]]
+    - [[#org-capture-setup][Org Capture setup]]
+    - [[#tags][Tags]]
+    - [[#custom-functions-for-gtd][Custom functions for GTD]]
+  - [[#org-roam][Org Roam]]
+  - [[#org-roam-server][Org Roam server]]
+    - [[#org-roam-capture-templates][Org roam capture templates]]
+  - [[#org-pomodoro][Org Pomodoro]]
+  - [[#org-ref][Org-ref]]
+- [[#file-templates][File templates]]
+  - [[#configel][config.el]]
+  - [[#initel][init.el]]
+  - [[#packagesel][packages.el]]
+
+* Useful resources
+
+Before we begin, here are a list of resources I have found useful when configuring and using Emacs:
+- [[https://leanpub.com/lit-config/read#leanpub-auto-tips-and-tricks][Read Literate Configuration | Leanpub]]
+- [[https://blog.jethro.dev/posts/capturing_inbox/][Org-mode Workflow Part 1: Capturing in the Inbox · Jethro Kuan]]
+- [[https://narra.co.za/doom-tips-and-howtos/][Doom Tips and Howtos - Narra's Place]] 
+
+* A note on this file's structure
+This file generates all three Doom configuration files (namely, [[file:init.el][init.el]], [[file:config.el][config.el]] and [[file:packages.el][packages.el]]). This makes it possible to group snippets from all three files pertaining to a logical part of the Emacs ecosystem to live under one heading. I find this more logical, and easier to manage, rather than the default Doom Emacs split.
+
+The templates for all three files can be found at the bottom of this config.
+
+* Literate config setup
+:PROPERTIES:
+:header-args:elisp: :noweb-ref preamble
+:END:
+
+First of all, I want the configs to be nice and comfy to edit, so let's do that.
+The hook below automatically generates the configs once this file is saved.
+
+#+begin_src elisp
+(add-hook 'org-mode-hook
+          (lambda () (add-hook 'after-save-hook #'org-babel-tangle
+                               :append :local)))
+#+end_src
+
+Pdf tools is needed for generating the files. It is also used in org-noter
+#+begin_src elisp
+(pdf-tools-install)
+#+end_src
+* General
+:PROPERTIES:
+:header-args:elisp: :noweb-ref preamble
+:END:
+
+Enable fuzzy searching in search buffers
+#+begin_src elisp :noweb-ref ivy-init.el
+(ivy +fuzzy)
+#+end_src
+
+Set autosaving
+#+begin_src elisp
+(setq auto-save-visited-mode t)
+#+end_src
+
+Relative line numbers
+#+begin_src elisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+
+Make avy text searches span all windows
+#+begin_src elisp
+(setq avy-all-windows t)
+#+end_src
+
+Bookmarks get saved to with every modification
+#+begin_src elisp
+(setq bookmark-save-flag 1)
+#+end_src
+
+Always show hints for ace-window so it is easy to see which window we can jump to
+#+begin_src elisp
+(define-globalized-minor-mode ace-window-display-mode-global ace-window-display-mode
+  (lambda () (ace-window-display-mode 1)))
+(ace-window-display-mode-global 1)
+#+end_src
+* Custom Keymap
+
+Delete current file and buffer keymap
+#+begin_src elisp
+(defun delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if filename
+        (if (y-or-n-p (concat "Do you really want to delete file " filename " ?"))
+            (progn
+              (delete-file filename)
+              (message "Deleted file %s." filename)
+              (kill-buffer)))
+      (message "Not a file visiting buffer!"))))
+
+(map! :leader
+      :prefix "b"
+      :desc "delete-file-and-buffer" "D" #'delete-file-and-buffer)
+#+end_src
+
+Make evil-mode up/down operate in screen lines instead of logical lines
+#+begin_src elisp
+(define-key evil-motion-state-map "j" 'evil-next-visual-line)
+(define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+;; Also in visual mode
+(define-key evil-visual-state-map "j" 'evil-next-visual-line)
+(define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+#+end_src
+
+Replace with register
+#+begin_src elisp :noweb-ref replace-with-register
+(package! evil-replace-with-register
+  :recipe (:host github :repo "Dewdrops/evil-ReplaceWithRegister"))
+#+end_src
+
+#+begin_src elisp
+(require 'evil-replace-with-register)
+(setq evil-replace-with-register-key (kbd "gr"))
+(evil-replace-with-register-install)
+#+end_src
+
+* Appearance
+:PROPERTIES:
+:header-args:elisp: :noweb-ref preamble
+:END:
+
+Let's go ahead and set the beautiful Hack font with all the bells and whistles. Can be found [[https://github.com/pyrho/hack-font-ligature-nerd-font/blob/master/font/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf/][here]] (thanks [[https://github.com/pyrho][pyrho]]).
+#+begin_src elisp
+(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 15)
+      doom-variable-pitch-font (font-spec :family "Libre Baskerville" :size 15)
+      )
+#+end_src
+
+Ligatures. I like ligatures
+#+begin_src elisp :noweb-ref ligatures-init.el
+(ligatures +extra)
+#+end_src
+
+Centaur tabs
+#+begin_src elisp
+(after! centaur-tabs
+  (centaur-tabs-mode -1)
+  (setq centaur-tabs-height 36
+        centaur-tabs-set-icons t
+        centaur-tabs-modified-marker "o"
+        centaur-tabs-close-button "×"
+        centaur-tabs-set-bar 'above
+        centaur-tabs-gray-out-icons 'buffer)
+  (centaur-tabs-change-fonts "P22 Underground Book" 160))
+#+end_src
+
+* Org
+:PROPERTIES:
+:header-args:elisp: :noweb-ref preamble
+:END:
+
+I have recently begun to use org-mode quite heavily. Mainly for tracking todos and note-taking using org-roam.
+
+** General Org-mode
+
+Enable org-mode module with extras in init.el
+#+begin_src elisp :noweb-ref org-init.el
+(org +dragndrop +roam +pomodoro +pretty +noter :tools pdf)
+                                        ;organize your plain life in plain text
+#+end_src
+
+Also, set mixed pitch mode to be available in org mode.
+#+begin_src elisp
+(add-hook! 'org-mode :append
+           #'mixed-pitch-mode)
+(setq mixed-pitch-variable-pitch-cursor nil)
+#+end_src
+
+Define where org files can be found
+#+begin_src elisp
+
+(require 'find-lisp)
+(setq org-directory "~/Dropbox/org/"
+      jethro/org-agenda-directory (concat org-directory "gtd/")
+      org-agenda-files (find-lisp-find-files jethro/org-agenda-directory "\.org$")
+      org-startup-folded 'overview)
+#+end_src
+
+Todo keywords
+#+begin_src elisp 
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+        ))
+#+end_src
+
+Custom column display
+#+begin_src elisp
+  (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")
+#+end_src
+
+** Org Agenda and GTD
+
+This workflow (loosely based on David Allen's GTD methodology) has mostly been taken from Jethro Kuan's [[https://blog.jethro.dev/posts/capturing_inbox/][great guide]] and modified it to preference.
+In short, any ideas, links, todos etc are org-captured to an inbox file. These later get processed in bulk (tagged, estimated efforts etc.) and refiled to the appropriate files (next, someday, projects etc.). A customized Agenda view is crucial in making this work.
+
+First of all, let's set up a shortcut for org-capture and define the templates to use. This is the entrypoint for the GTD system. The org-protocol-capture template is used mostly with [[file:../misc/org-capture-bookmarklet][this]] bookmarklet in firefox to easily push links from the browser to the inbox.
+*** Org Capture setup
+#+begin_src elisp 
+(map! :leader
+      "C" #'org-capture)
+
+(setq org-capture-templates
+      `(("i" "Inbox" entry (file ,(concat jethro/org-agenda-directory "inbox.org"))
+         ,(concat "* TODO %?\n"
+                  "/Entered on/ %u \n"
+                  "What is the first step for this task?"))
+        ("c" "org-protocol-capture" entry (file ,(concat jethro/org-agenda-directory "inbox.org"))
+         "* TODO [[%:link][%:description]]\n\n %i"
+         :immediate-finish t)))
+
+(defun jethro/org-inbox-capture ()
+  (interactive)
+  "Capture a task in agenda mode."
+  (org-capture nil "i"))
+#+end_src
+
+*** Tags
+
+GTD items are annotated with tags. These represent represent:
+- areas (of responsibility) prefixed with @. *A sphere of activity with a standard to be maintained over time.*
+- Interests (prefixed with &)
+#+begin_src elisp
+
+(setq org-tag-alist '(("@social" . ?s)
+                      ("@work" . ?w)
+                      ("@music" . ?m)
+                      ("@fitness&health" . ?f)
+                      ("@learning" . ?l)
+                      ))
+#+end_src
+
+*** Custom functions for GTD
+
+Keybindings
+#+begin_src elisp 
+(map! :map org-agenda-mode-map
+      "i" #'org-agenda-clock-in
+      "r" #'jethro/org-process-inbox
+      "R" #'org-agenda-refile
+      "c" #'jethro/org-inbox-capture)
+#+end_src
+
+Enabling refiling headings to other org agenda files
+#+begin_src elisp
+(setq org-refile-use-outline-path 'file
+      org-outline-path-complete-in-steps nil)
+(setq org-refile-allow-creating-parent-nodes 'confirm
+      org-refile-targets '((org-agenda-files . (:level . 1))))
+#+end_src
+
+Define functions to be called on marked agenda items
+#+begin_src elisp
+(defvar jethro/org-agenda-bulk-process-key ?f
+  "Default key for bulk processing inbox items.")
+(setq org-agenda-bulk-custom-functions `((,jethro/org-agenda-bulk-process-key jethro/org-agenda-process-inbox-item)))
+#+end_src
+
+Functions for processing the gtd inbox from the agenda view. The bulk inbox processing function needed a bit of hacking compared to jethro's original to actually work in my config. The original org-agenda-bulk-mark-regexp function didn't work as it tried to match text from the org *txt* category. Instead we want to match the *org-category* category. The modified function was taken from [[https://emacs.stackexchange.com/questions/59657/how-to-bulk-mark-agenda-items-based-on-file-name][here]]. This still had a problem though. Since one of the headings in the custom org agenda view is named *Inbox* The first regexp search matched the heading and the get-text-property call failed because Agenda headings don't have and *org-category* property, making the whole while condition fail. I fixed this by toggling regexp case sensitivity for the duration of the regexp. An ugly fix but it'll do until I have time to rewrite.
+#+begin_src elisp
+(defun jethro/org-process-inbox ()
+  "Called in org-agenda-mode, processes all inbox items."
+  (interactive)
+  (setq case-fold-search nil)
+  (custom/org-agenda-bulk-mark-regexp-category "inbox")
+  (setq case-fold-search t)
+  (jethro/bulk-process-entries))
+
+(defun custom/org-agenda-bulk-mark-regexp-category (regexp)
+  "Mark entries whose category matches REGEXP for future agenda bulk action."
+  (interactive "sMark entries with category matching regexp: ")
+  (let ((entries-marked 0) txt-at-point)
+    (save-excursion
+      (goto-char (point-min))
+      (goto-char (next-single-property-change (point) 'org-hd-marker))
+      (while (and (re-search-forward regexp nil t)
+                  (setq category-at-point
+                        (get-text-property (match-beginning 0) 'org-category)))
+        (if (get-char-property (point) 'invisible)
+            (beginning-of-line 2)
+          (when (string-match-p regexp category-at-point)
+            (setq entries-marked (1+ entries-marked))
+            (call-interactively 'org-agenda-bulk-mark)))))
+    (unless entries-marked
+      (message "No entry matching this regexp."))))
+
+(defun jethro/org-agenda-process-inbox-item ()
+  "Process a single item in the org-agenda."
+  (org-with-wide-buffer
+   (org-agenda-set-tags)
+   (org-agenda-priority)
+   (call-interactively 'jethro/my-org-agenda-set-effort)
+   (org-agenda-refile nil nil t)))
+
+(defun jethro/bulk-process-entries ()
+  (if (not (null org-agenda-bulk-marked-entries))
+      (let ((entries (reverse org-agenda-bulk-marked-entries))
+            (processed 0)
+            (skipped 0))
+        (dolist (e entries)
+          (let ((pos (text-property-any (point-min) (point-max) 'org-hd-marker e)))
+            (if (not pos)
+                (progn (message "Skipping removed entry at %s" e)
+                       (cl-incf skipped))
+              (goto-char pos)
+              (let (org-loop-over-headlines-in-active-region) (funcall 'jethro/org-agenda-process-inbox-item))
+              ;; `post-command-hook' is not run yet.  We make sure any
+              ;; pending log note is processed.
+              (when (or (memq 'org-add-log-note (default-value 'post-command-hook))
+                        (memq 'org-add-log-note post-command-hook))
+                (org-add-log-note))
+              (cl-incf processed))))
+        (org-agenda-redo)
+        (unless org-agenda-persistent-marks (org-agenda-bulk-unmark-all))
+        (message "Acted on %d entries%s%s"
+                 processed
+                 (if (= skipped 0)
+                     ""
+                   (format ", skipped %d (disappeared before their turn)"
+                           skipped))
+                 (if (not org-agenda-persistent-marks) "" " (kept marked)")))))
+#+end_src
+
+A function for interactively setting task effort
+#+begin_src elisp
+(defvar jethro/org-current-effort "1:00"
+  "Current effort for agenda items.")
+
+(defun jethro/my-org-agenda-set-effort (effort)
+  "Set the effort property for the current headline."
+  (interactive
+   (list (read-string (format "Effort [%s]: " jethro/org-current-effort) nil nil jethro/org-current-effort)))
+  (setq jethro/org-current-effort effort)
+  (org-agenda-check-no-diary)
+  (let* ((hdmarker (or (org-get-at-bol 'org-hd-marker)
+                       (org-agenda-error)))
+         (buffer (marker-buffer hdmarker))
+         (pos (marker-position hdmarker))
+         (inhibit-read-only t)
+         newhead)
+    (org-with-remote-undo buffer
+      (with-current-buffer buffer
+        (widen)
+        (goto-char pos)
+        (org-show-context 'agenda)
+        (funcall-interactively 'org-set-effort nil jethro/org-current-effort)
+        (end-of-line 1)
+        (setq newhead (org-get-heading)))
+      (org-agenda-change-all-lines newhead hdmarker))))
+#+end_src
+
+Change todo state if task clocked
+#+begin_src elisp
+(defun jethro/set-todo-state-next ()
+  "Visit each parent task and change NEXT states to TODO"
+  (org-todo "NEXT"))
+
+(add-hook 'org-clock-in-hook 'jethro/set-todo-state-next 'append)
+#+end_src
+
+Custom agenda view
+#+begin_src elisp
+(use-package! org-agenda
+  :init
+  (map! :leader
+        :prefix "n"
+        :desc "org-agenda" "a" #'jethro/switch-to-agenda)
+  (setq org-agenda-block-separator nil
+        org-agenda-start-with-log-mode t)
+  (defun jethro/switch-to-agenda ()
+    (interactive)
+    (org-agenda nil " "))
+  :config
+  (defun jethro/is-project-p ()
+    "Any task with a todo keyword subtask"
+    (save-restriction
+      (widen)
+      (let ((has-subtask)
+            (subtree-end (save-excursion (org-end-of-subtree t)))
+            (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+        (save-excursion
+          (forward-line 1)
+          (while (and (not has-subtask)
+                      (< (point) subtree-end)
+                      (re-search-forward "^\*+ " subtree-end t))
+            (when (member (org-get-todo-state) org-todo-keywords-1)
+              (setq has-subtask t))))
+        (and is-a-task has-subtask))))
+
+  (defun jethro/skip-projects ()
+    "Skip trees that are projects"
+    (save-restriction
+      (widen)
+      (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+        (cond
+         ((org-is-habit-p)
+          next-headline)
+         ((jethro/is-project-p)
+          next-headline)
+         (t
+          nil)))))
+#+end_src
+
+Agenda prefixes to show the effort estimate
+#+begin_src elisp
+  (setq org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t%-6e% s")
+                                   (todo . " %i %-12:c %-6e")
+                                   (tags . " %i %-12:c")
+                                   (search . " %i %-12:c")))
+#+end_src
+
+#+begin_src elisp
+  (setq org-agenda-custom-commands `((" " "Agenda"
+                                      ((agenda ""
+                                               ((org-agenda-span 'week)
+                                                (org-deadline-warning-days 14)))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Inbox")
+                                              (org-agenda-files '(,(concat jethro/org-agenda-directory "inbox.org")))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Emails")
+                                              (org-agenda-files '(,(concat jethro/org-agenda-directory "emails.org")))))
+                                       (todo "NEXT"
+                                             ((org-agenda-overriding-header "In Progress")
+                                              (org-agenda-files '(,(concat jethro/org-agenda-directory "projects.org") ,(concat jethro/org-agenda-directory "next.org")))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Active Projects")
+                                              (org-agenda-skip-function #'jethro/skip-projects)
+                                              (org-agenda-files '(,(concat jethro/org-agenda-directory "projects.org")))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "One-off Tasks")
+                                              (org-agenda-files '(,(concat jethro/org-agenda-directory "next.org")))
+                                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
+                                       (todo "TODO"
+                                             ((org-agenda-overriding-header "Habits")
+                                              (org-agenda-files '(,(concat jethro/org-agenda-directory "habits.org")))
+                                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
+
+                                       )))))
+#+end_src
+** Org Roam
+#+begin_src elisp 
+(setq org-roam-directory (concat org-directory "roam/") )
+(require 'org-roam-protocol)
+(winner-mode +1)
+(map! :map winner-mode-map
+      "<M-right>" #'winner-redo
+      "<M-left>" #'winner-undo)
+(map! :leader
+      :prefix "n"
+      :desc "org-roam" "l" #'org-roam
+      :desc "org-roam-insert" "i" #'org-roam-insert
+      :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
+      :desc "org-roam-find-file" "f" #'org-roam-find-file
+      :desc "org-roam-show-graph" "g" #'org-roam-show-graph
+      :desc "org-roam-capture" "c" #'org-roam-capture
+      :desc "org-roam-deactivate-buffer" "d" #'org-roam-buffer-toggle-display)
+
+(setq org-roam-tag-sources '(prop last-directory))
+#+end_src
+** Org Roam server
+#+begin_src elisp :noweb-ref org-roam-server-packages.el
+(package! org-roam-server :recipe (:host github :repo "org-roam/org-roam-server" :files ("*")))
+#+end_src
+
+#+begin_src elisp
+(use-package! org-roam-server
+  :after ( org-roam server )
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-export-inline-images t
+        org-roam-server-authenticate nil
+        org-roam-server-label-truncate t
+        org-roam-server-label-truncate-length 60
+        org-roam-server-label-wrap-length 20)
+  (defun org-roam-server-open ()
+    "Ensure the server is active, then open the roam graph."
+    (interactive)
+    (org-roam-server-mode 1)
+    (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
+#+end_src
+
+*** Org roam capture templates
+
+Roam supports capture functionality. We need to escape these by prepending a ',' before headings.
+#+begin_src elisp :noweb-ref roam-templates
+
+;; TODO template the main string
+(setq org-roam-capture-templates
+        '(("r" "read" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "src/read/${slug}"
+           :head "#+title: ${title}\n
+#+roam_alias: \n
+#+roam_tags: \n
+,* ${title}\n
+- source :: ${ref}\n
+- links :: "
+           :unnarrowed t)
+          ("w" "web" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "src/web/${slug}"
+           :head "#+title: ${title}\n
+#+roam_alias: \n
+#+roam_tags: \n
+,* ${title}\n
+- source :: ${ref}\n
+- links :: "
+           :unnarrowed t)
+          ("m" "media" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "src/media/${slug}"
+           :head "#+title: ${title}\n
+#+roam_alias: \n
+#+roam_tags: \n
+,* ${title}\n
+- source :: ${ref}\n
+- links :: "
+           :unnarrowed t)
+          ("c" "concept" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "${slug}"
+           :head "#+title: ${title}\n
+#+roam_alias: \n
+#+roam_tags: \n
+,* ${title}
+- links :: "
+           :unnarrowed t)))
+  (setq org-roam-capture-ref-templates
+        '(("r" "ref" plain (function org-roam-capture--get-point)
+           "%?"
+           :file-name "src/web/${slug}"
+           :head "#+title: ${title}
+#+roam_key: ${ref}
+#+roam_tags: website
+,* ${title}
+- source :: ${ref}
+- links :: "
+           :unnarrowed t)))
+#+end_src
+
+** Org Pomodoro
+#+begin_src elisp :noweb-ref roam-templates
+;; TODO add hook to send notification to mobile when break ends
+
+(setq org-pomodoro-length 50)
+(setq org-pomodoro-short-break-length 10)
+(setq org-pomodoro-long-break-length 10)
+#+end_src
+** Org-ref
+
+#+begin_src elisp :noweb-ref roam-templates
+(require 'org-ref)
+(setq reftex-default-bibliography '("~/Workspace/Engineering-Thesis/paper/Bibliography.bib"))
+(setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
+#+end_src
+
+* File templates
+
+This is the place where the file templates live
+
+** config.el
+#+begin_src elisp :tangle config.el :noweb yes
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; DO NOT EDIT THIS FILE DIRECTLY
+;; This is a file generated from a literate programing source file located at
+;; https://gitlab.com/zzamboni/dot-doom/-/blob/master/doom.org
+;; You should make any changes there and regenerate it from Emacs org-mode
+;; using org-babel-tangle (C-c C-v t)
+
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; sync' after modifying this file!
+
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets.
+;; (setq user-full-name "John Doe"
+;;      user-mail-address "john@doe.com")
+
+;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
+;; are the three important ones:
+;;
+;; + `doom-font'
+;; + `doom-variable-pitch-font'
+;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;;   presentations or streaming.
+;;
+;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+;; font string. You generally only need these two:
+;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
+;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. This is the default:
+;; (setq doom-theme 'doom-one)
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+;; (setq org-directory "~/org/")
+
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+;; (setq display-line-numbers-type t)
+
+;; Here are some additional functions/macros that could help you configure Doom:
+;;
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package!' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', relative to
+;;   this file. Emacs searches the `load-path' when you load packages with
+;;   `require' or `use-package'.
+;; - `map!' for binding new keys
+;;
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+;; This will open documentation for it, including demos of how they are used.
+;;
+;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+;; they are implemented.
+
+
+<<preamble>>
+<<vterm>>
+<<roam-templates>>
+#+end_src
+** init.el
+#+begin_src elisp :tangle init.el :noweb no-export
+;;; init.el -*- lexical-binding: t; -*-
+
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
+
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a "Module Index" link where you'll find
+;;      a comprehensive list of Doom's modules and what flags they support.
+
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
+
+(doom! :input
+       ;;chinese
+       ;;japanese
+
+       :completion
+       company           ; the ultimate code completion backend
+       ;; helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       <<ivy-init.el>>
+
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;;fill-column       ; a `fill-column' indicator
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       hydra
+       indent-guides     ; highlighted indent columns
+       ;;minimap           ; show a map of the code on the side
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;;nav-flash         ; blink cursor line after big motions
+       ;; neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       <<ligatures-init.el>>
+       tabs              ; a tab bar for Emacs
+       treemacs          ; a project drawer, like neotree but cooler
+       ;;unicode           ; extended unicode support for various languages
+       vc-gutter         ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       zen               ; distraction-free coding or writing
+
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       (format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       ;; word-wrap         ; soft wrapping with language-aware indent
+
+       :emacs
+       dired             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       ;;ibuffer         ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
+
+       :term
+       ;;eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       vterm             ; the best terminal emulation in Emacs
+
+       :checkers
+       syntax              ; tasing you for every semicolon you forget
+       ;;spell             ; tasing you for misspelling mispelling
+       ;;grammar           ; tasing grammar mistake every you make
+
+       :tools
+       ansible
+       debugger          ; FIXME stepping through code, to help you add bugs
+       ;;direnv
+       docker
+       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       ;;gist              ; interacting with github gists
+       lookup              ; navigate your code and its documentation
+       lsp
+       ;;macos             ; MacOS-specific commands
+       magit             ; a git porcelain for Emacs
+       ;;make              ; run make tasks from Emacs
+       ;;pass              ; password manager for nerds
+       pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       ;;rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
+       ;;terraform         ; infrastructure as code
+       ;; tmux              ; an API for interacting with tmux
+       ;;upload            ; map local to remote projects via ssh/ftp
+
+       :os
+       tty               ; improve the terminal Emacs experience
+
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;cc                ; C/C++/Obj-C madness
+       ;;clojure           ; java with a lisp
+       ;;common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(haskell +dante)  ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ;
+       json              ; At least it ain't XML
+       ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
+       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       ( latex
+         +latexmk
+         +cdlatex
+         +fold
+         +lsp)             ; writing papers in Emacs has never been so fun
+       ;;lean
+       ;;factor
+       ;;ledger            ; an accounting system in Emacs
+       ;;lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       ;;nix               ; I hereby declare "nix geht mehr!"
+       ;;ocaml             ; an objective camel
+       <<org-init.el>>
+       ;;php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       (python +lsp)            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;scheme            ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       ;;web               ; the tubes
+       yaml              ; JSON, but readable
+
+       :email
+       (mu4e +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
+
+       :app
+       calendar
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
+
+       :config
+       ;;literate
+       (default +bindings +smartparens))
+#+end_src
+** packages.el
+#+begin_src elisp :tangle packages.el :noweb no-export
+;; -*- no-byte-compile: t; -*-
+;;; $DOOMDIR/packages.el
+
+;; To install a package with Doom you must declare them here and run 'doom sync'
+;; on the command line, then restart Emacs for the changes to take effect -- or
+;; use 'M-x doom/reload'.
+
+
+;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
+                                        ;(package! some-package)
+
+;; To install a package directly from a remote git repo, you must specify a
+;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
+;; https://github.com/raxod502/straight.el#the-recipe-format
+                                        ;(package! another-package
+                                        ;  :recipe (:host github :repo "username/repo"))
+
+;; If the package you are trying to install does not contain a PACKAGENAME.el
+;; file, or is located in a subdirectory of the repo, you'll need to specify
+;; `:files' in the `:recipe':
+                                        ;(package! this-package
+                                        ;  :recipe (:host github :repo "username/repo"
+                                        ;           :files ("some-file.el" "src/lisp/*.el")))
+
+;; If you'd like to disable a package included with Doom, you can do so here
+;; with the `:disable' property:
+                                        ;(package! builtin-package :disable t)
+
+;; You can override the recipe of a built in package without having to specify
+;; all the properties for `:recipe'. These will inherit the rest of its recipe
+;; from Doom or MELPA/ELPA/Emacsmirror:
+                                        ;(package! builtin-package :recipe (:nonrecursive t))
+                                        ;(package! builtin-package-2 :recipe (:repo "myfork/package"))
+
+;; Specify a `:branch' to install a package from a particular branch or tag.
+;; This is required for some packages whose default branch isn't 'master' (which
+;; our package manager can't deal with; see raxod502/straight.el#279)
+                                        ;(package! builtin-package :recipe (:branch "develop"))
+
+;; Use `:pin' to specify a particular commit to install.
+                                        ;(package! builtin-package :pin "1a2b3c4d5e")
+
+
+;; Doom's packages are pinned to a specific commit and updated from release to
+;; release. The `unpin!' macro allows you to unpin single packages...
+                                        ;(unpin! pinned-package)
+;; ...or multiple packages
+                                        ;(unpin! pinned-package another-pinned-package)
+;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
+                                        ;(unpin! t)
+<<replace-with-register>>
+<<org-roam-server-packages.el>>
+
+(package! org-ref)
+
+(package! mixed-pitch)
+#+end_src
