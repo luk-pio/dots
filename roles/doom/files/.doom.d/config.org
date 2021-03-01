@@ -81,9 +81,9 @@ Set autosaving
 (setq auto-save-visited-mode t)
 #+end_src
 
-Relative line numbers
+line numbers
 #+begin_src elisp
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type nil)
 #+end_src
 
 Make avy text searches span all windows
@@ -168,8 +168,8 @@ Replace with register
 
 Let's go ahead and set the beautiful Hack font with all the bells and whistles. Can be found [[https://github.com/pyrho/hack-font-ligature-nerd-font/blob/master/font/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf/][here]] (thanks [[https://github.com/pyrho][pyrho]]).
 #+begin_src elisp
-(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 12)
-      doom-variable-pitch-font (font-spec :family "EtBembo" :size 15)
+(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 15 :height 1.0)
+      doom-variable-pitch-font (font-spec :family "EtBembo" :height 1.0 :size 17)
       )
 #+end_src
 
@@ -187,6 +187,17 @@ And set in config.el
 #+begin_src elisp
 (setq doom-theme 'spacemacs-light)
 #+end_src
+
+Disable solaire mode and line highlighting
+#+begin_src elisp
+(after! solaire-mode
+  (solaire-global-mode -1))
+(after! hl-line-mode
+  (hl-line-mode -1))
+#+end_src
+
+#+RESULTS:
+: -1
 
 * Org
 :PROPERTIES:
@@ -228,18 +239,22 @@ Custom column display
 
 Set mixed pitch mode to be available in org mode.
 #+begin_src elisp
-(add-hook 'org-mode-hook
+(use-package! mixed-pitch
+  :hook (org-mode . mixed-pitch-mode)
+  :config
+  (setq mixed-pitch-set-height t)
+  (set-face-attribute 'variable-pitch nil :height 1.3))
+
+(add-hook 'org-mode-hook :append :local
           (lambda ()
             (mixed-pitch-mode 1)
-            (display-line-numbers-mode -1)
             (hl-line-mode -1)
-            (setq set-left-margin 2)
-            (setq set-right-margin 2)
+            (set-left-margin 4)
+            (set-right-margin 4)
             (set-window-buffer nil (current-buffer))))
 
 (setq line-spacing 0.1
       header-line-format " "
-      hl-line-mode nil
       )
 
 (setq org-startup-indented t
@@ -254,7 +269,10 @@ Set mixed pitch mode to be available in org mode.
       org-fontify-quote-and-verse-blocks t)
 #+end_src
 
-Sexy styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up Org Mode]] and adapted for doom
+#+RESULTS:
+: t
+
+Styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up Org Mode]] and adapted for doom
 #+begin_src elisp
 (setq-local
  bg-white           "#fbf8ef"
@@ -289,6 +307,7 @@ Sexy styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricin
 
    ( (t (:family ,et-font
          :foreground ,bg-dark
+         :background ,bg-white
          :height 1.7) ) ))
  `(org-document-title
 
@@ -377,13 +396,13 @@ Sexy styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricin
    ( (t (:background nil
          :height 0.8
          :family ,sans-mono-font
-         :foreground ,slate) ) ))
+         :foreground ,bg-dark) ) ))
  `(org-block-end-line
 
    ( (t (:background nil
          :height 0.8
          :family ,sans-mono-font
-         :foreground ,slate) ) ))
+         :foreground ,bg-dark) ) ))
  `(org-document-info-keyword
 
    ( (t (:height 0.8
@@ -396,13 +415,13 @@ Sexy styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricin
    ( (t (:family ,sans-mono-font
          :height 0.8) ) ))
  `(org-todo
-   ( (t (:foreground ,builtin
-         :background ,bg-dark) ) )
+   ( (t (:inherit variable-pitch :foreground ,purple :height 0.8) ) )
    )
  `(org-done
    ( (t (:inherit variable-pitch
+         :height 0.8
          :foreground ,dark-cyan
-         :background ,bg-dark) ) )
+         ) ) )
    )
  `(org-agenda-current-time
    ( (t (:foreground ,slate) ) )
@@ -433,7 +452,7 @@ Sexy styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricin
          :height 1.1) ) ))
  `(org-agenda-date-today
    ( (t (:height 1.5
-         :foreground ,keyword
+         :foreground ,dark-cyan
          :inherit variable-pitch) ) )
    )
  `(org-agenda-date-weekend
@@ -473,10 +492,10 @@ Sexy styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricin
          :family ,serif-mono-font
          :foreground ,comment
          :height 0.7) ) ))
+ `(mode-line
+   ( (t (:background ,bg-white) ) ))
  )
 #+end_src
-
-#+RESULTS:
 
 ** Org Agenda and GTD
 

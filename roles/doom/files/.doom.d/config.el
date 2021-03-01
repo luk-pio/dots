@@ -63,7 +63,7 @@
                                :append :local)))
 (pdf-tools-install)
 (setq auto-save-visited-mode t)
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type nil)
 (setq avy-all-windows t)
 (setq bookmark-save-flag 1)
 (define-globalized-minor-mode ace-window-display-mode-global ace-window-display-mode
@@ -101,10 +101,14 @@
 (require 'evil-replace-with-register)
 (setq evil-replace-with-register-key (kbd "gr"))
 (evil-replace-with-register-install)
-(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 12)
-      doom-variable-pitch-font (font-spec :family "EtBembo" :size 15)
+(setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 15 :height 1.0)
+      doom-variable-pitch-font (font-spec :family "EtBembo" :height 1.0 :size 17)
       )
 (setq doom-theme 'spacemacs-light)
+(after! solaire-mode
+  (solaire-global-mode -1))
+(after! hl-line-mode
+  (hl-line-mode -1))
 
 (require 'find-lisp)
 (setq org-directory "~/Dropbox/org/"
@@ -115,18 +119,22 @@
       '((sequence "TODO(t)" "NEXT(n)" "HOLD(h)" "|" "DONE(d)")
         ))
   (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")
-(add-hook 'org-mode-hook
+(use-package! mixed-pitch
+  :hook (org-mode . mixed-pitch-mode)
+  :config
+  (setq mixed-pitch-set-height t)
+  (set-face-attribute 'variable-pitch nil :height 1.3))
+
+(add-hook 'org-mode-hook :append :local
           (lambda ()
             (mixed-pitch-mode 1)
-            (display-line-numbers-mode -1)
             (hl-line-mode -1)
-            (setq set-left-margin 2)
-            (setq set-right-margin 2)
+            (set-left-margin 4)
+            (set-right-margin 4)
             (set-window-buffer nil (current-buffer))))
 
 (setq line-spacing 0.1
       header-line-format " "
-      hl-line-mode nil
       )
 
 (setq org-startup-indented t
@@ -172,6 +180,7 @@
 
    ( (t (:family ,et-font
          :foreground ,bg-dark
+         :background ,bg-white
          :height 1.7) ) ))
  `(org-document-title
 
@@ -260,13 +269,13 @@
    ( (t (:background nil
          :height 0.8
          :family ,sans-mono-font
-         :foreground ,slate) ) ))
+         :foreground ,bg-dark) ) ))
  `(org-block-end-line
 
    ( (t (:background nil
          :height 0.8
          :family ,sans-mono-font
-         :foreground ,slate) ) ))
+         :foreground ,bg-dark) ) ))
  `(org-document-info-keyword
 
    ( (t (:height 0.8
@@ -279,13 +288,13 @@
    ( (t (:family ,sans-mono-font
          :height 0.8) ) ))
  `(org-todo
-   ( (t (:foreground ,builtin
-         :background ,bg-dark) ) )
+   ( (t (:inherit variable-pitch :foreground ,purple :height 0.8) ) )
    )
  `(org-done
    ( (t (:inherit variable-pitch
+         :height 0.8
          :foreground ,dark-cyan
-         :background ,bg-dark) ) )
+         ) ) )
    )
  `(org-agenda-current-time
    ( (t (:foreground ,slate) ) )
@@ -316,7 +325,7 @@
          :height 1.1) ) ))
  `(org-agenda-date-today
    ( (t (:height 1.5
-         :foreground ,keyword
+         :foreground ,dark-cyan
          :inherit variable-pitch) ) )
    )
  `(org-agenda-date-weekend
@@ -356,6 +365,8 @@
          :family ,serif-mono-font
          :foreground ,comment
          :height 0.7) ) ))
+ `(mode-line
+   ( (t (:background ,bg-white) ) ))
  )
 (map! :leader
       "C" #'org-capture)
