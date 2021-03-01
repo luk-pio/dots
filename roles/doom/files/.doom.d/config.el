@@ -108,7 +108,7 @@
 (after! solaire-mode
   (solaire-global-mode -1))
 (after! hl-line-mode
-  (hl-line-mode -1))
+  (global-hl-line-mode -1))
 
 (require 'find-lisp)
 (setq org-directory "~/Dropbox/org/"

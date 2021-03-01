@@ -193,7 +193,7 @@ Disable solaire mode and line highlighting
 (after! solaire-mode
   (solaire-global-mode -1))
 (after! hl-line-mode
-  (hl-line-mode -1))
+  (global-hl-line-mode -1))
 #+end_src
 
 #+RESULTS:
