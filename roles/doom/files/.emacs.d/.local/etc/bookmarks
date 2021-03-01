@@ -58,10 +58,10 @@
  (rear-context-string)
  (position . 1))
 ("org-refile-last-stored"
- (filename . "~/Dropbox/org/gtd/next.org")
- (front-context-string . "* TODO SQL exerc")
+ (filename . "~/Dropbox/org/gtd/maybe_someday.org")
+ (front-context-string . "* TODO [#C] http")
  (rear-context-string . " for this task?\n")
- (position . 5251))
+ (position . 26313))
 ("org"
  (filename . "~/Dropbox/org/")
  (front-context-string . "roam\n  -rw-r--r-")
