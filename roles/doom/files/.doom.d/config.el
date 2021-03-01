@@ -101,6 +101,12 @@
 (require 'evil-replace-with-register)
 (setq evil-replace-with-register-key (kbd "gr"))
 (evil-replace-with-register-install)
+(winner-mode +1)
+(map! :map winner-mode-map
+      "<C-M-right>" #'winner-redo
+      "<C-M-left>" #'winner-undo)
+(map! :leader
+      "<M-left>" #'avy-pop-mark)
 (setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 15 :height 1.0)
       doom-variable-pitch-font (font-spec :family "EtBembo" :height 1.0 :size 17)
       )
@@ -564,10 +570,6 @@
                                        )))))
 (setq org-roam-directory (concat org-directory "roam/") )
 (require 'org-roam-protocol)
-(winner-mode +1)
-(map! :map winner-mode-map
-      "<M-right>" #'winner-redo
-      "<M-left>" #'winner-undo)
 (map! :leader
       :prefix "n"
       :desc "org-roam" "l" #'org-roam

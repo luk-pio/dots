@@ -161,6 +161,19 @@ Replace with register
 (evil-replace-with-register-install)
 #+end_src
 
+Undo / redo action
+#+begin_src elisp
+(winner-mode +1)
+(map! :map winner-mode-map
+      "<C-M-right>" #'winner-redo
+      "<C-M-left>" #'winner-undo)
+#+end_src
+
+Undo / redo movement
+#+begin_src elisp
+(map! :leader
+      "<M-left>" #'avy-pop-mark)
+#+end_src
 * Appearance
 :PROPERTIES:
 :header-args:elisp: :noweb-ref preamble
@@ -268,9 +281,6 @@ Set mixed pitch mode to be available in org mode.
       org-fontify-done-headline t
       org-fontify-quote-and-verse-blocks t)
 #+end_src
-
-#+RESULTS:
-: t
 
 Styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up Org Mode]] and adapted for doom
 #+begin_src elisp
@@ -749,10 +759,6 @@ Agenda prefixes to show the effort estimate
 #+begin_src elisp 
 (setq org-roam-directory (concat org-directory "roam/") )
 (require 'org-roam-protocol)
-(winner-mode +1)
-(map! :map winner-mode-map
-      "<M-right>" #'winner-redo
-      "<M-left>" #'winner-undo)
 (map! :leader
       :prefix "n"
       :desc "org-roam" "l" #'org-roam
