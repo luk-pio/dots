@@ -2,7 +2,22 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("aug proj"
+(("spooky_story"
+ (filename . "~/Workspace/spooky_story/")
+ (front-context-string)
+ (rear-context-string . "0K mar  6 00:21 ")
+ (position . 301))
+("interview_questions"
+ (filename . "~/Workspace/programming/interview_questions/")
+ (front-context-string)
+ (rear-context-string . "0K mar  3 18:47 ")
+ (position . 184))
+("cv"
+ (filename . "~/Workspace/job_hunt/cv-en/Lukasz_Piotrak_cv.tex")
+ (front-context-string . "\n\n\\cvsubsection{")
+ (rear-context-string . "ux}\n\\cvtag{Git}\n")
+ (position . 3775))
+("aug proj"
  (filename . "~/Workspace/programming_practice/aug/lex/project/")
  (front-context-string . "sql.tab.c\n  -rw-")
  (rear-context-string . "1K lut  1 23:37 ")
@@ -59,9 +74,9 @@
  (position . 1))
 ("org-refile-last-stored"
  (filename . "~/Dropbox/org/gtd/maybe_someday.org")
- (front-context-string . "* TODO [#C] http")
- (rear-context-string . " for this task?\n")
- (position . 26313))
+ (front-context-string . "* TODO [#B] [[ht")
+ (rear-context-string . ":   04:00\n:END:\n")
+ (position . 31107))
 ("org"
  (filename . "~/Dropbox/org/")
  (front-context-string . "roam\n  -rw-r--r-")
@@ -90,8 +105,8 @@
 ("org-capture-last-stored"
  (filename . "~/Dropbox/org/gtd/inbox.org")
  (front-context-string . "* TODO [[https:/")
- (rear-context-string . "ds=Text;Editor;\n")
- (position . 2325))
+ (rear-context-string . " of MixNMatch]]\n")
+ (position . 1974))
 ("aliasrc"
  (filename . "~/dotfs/.config/aliasrc")
  (front-context-string . "export GOPATH=$H")

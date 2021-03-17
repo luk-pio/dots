@@ -31,6 +31,8 @@ If you'd like to roll your own literate config I highly recommend the [[https://
     - [[#org-roam-capture-templates][Org roam capture templates]]
   - [[#org-pomodoro][Org Pomodoro]]
   - [[#org-ref][Org-ref]]
+- [[#auctex][AUCTeX]]
+  - [[#appearance-1][Appearance]]
 - [[#file-templates][File templates]]
   - [[#configel][config.el]]
   - [[#initel][init.el]]
@@ -182,13 +184,13 @@ Undo / redo movement
 Let's go ahead and set the beautiful Hack font with all the bells and whistles. Can be found [[https://github.com/pyrho/hack-font-ligature-nerd-font/blob/master/font/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf/][here]] (thanks [[https://github.com/pyrho][pyrho]]).
 #+begin_src elisp
 (setq doom-font (font-spec :family "Hack Nerd Font Mono" :size 15 :height 1.0)
-      doom-variable-pitch-font (font-spec :family "EtBembo" :height 1.0 :size 17)
+      doom-variable-pitch-font (font-spec :family "Newsreader" :height 1.0 :size 17)
       )
 #+end_src
 
 Ligatures. I like ligatures
 #+begin_src elisp :noweb-ref ligatures-init.el
-(ligatures +extra)
+(ligatures)
 #+end_src
 
 Set the theme:
@@ -203,10 +205,8 @@ And set in config.el
 
 Disable solaire mode and line highlighting
 #+begin_src elisp
-(after! solaire-mode
-  (solaire-global-mode -1))
-(after! hl-line-mode
-  (global-hl-line-mode -1))
+  (setq solaire-global-mode -1)
+  (setq global-hl-line-mode -1)
 #+end_src
 
 #+RESULTS:
@@ -306,8 +306,8 @@ Styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up 
  gray-dark          "#999"
  gray               "#bbb"
  sans-font          "Hack Nerd Font Mono"
- serif-font         "EtBembo"
- et-font            "EtBembo"
+ serif-font         "Newsreader"
+ et-font            "Newsreader"
  sans-mono-font     "Hack Nerd Font Mono"
  serif-mono-font    "Verily Serif Mono")
 
@@ -366,36 +366,32 @@ Styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up 
    ( (t (:inherit variable-pitch
          :weight bold
          :height 1.1
-         :foreground ,slate
-         :background ,bg-dark) ) )
+         :foreground ,slate) ) )
    )
  `(org-level-6
    ( (t (:inherit variable-pitch
          :weight bold
          :height 1.1
-         :foreground ,slate
-         :background ,bg-dark) ) )
+         :foreground ,slate) ) )
    )
  `(org-level-7
    ( (t (:inherit variable-pitch
          :weight bold
          :height 1.1
-         :foreground ,slate
-         :background ,bg-dark) ) )
+         :foreground ,slate) ) )
    )
  `(org-level-8
    ( (t (:inherit variable-pitch
          :weight bold
          :height 1.1
-         :foreground ,slate
-         :background ,bg-dark) ) )
+         :foreground ,slate) ) )
    )
  `(org-headline-done
 
    ( (t (:family ,et-font
          :strike-through t) ) ))
  `(org-quote
-   ( (t (:background ,bg-dark) ) )
+   ( (t (:background ,bg-light) ) )
    )
  `(org-block
 
@@ -425,12 +421,12 @@ Styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up 
    ( (t (:family ,sans-mono-font
          :height 0.8) ) ))
  `(org-todo
-   ( (t (:inherit variable-pitch :foreground ,purple :height 0.8) ) )
+   ( (t (:inherit variable-pitch :height 0.8) ) )
    )
  `(org-done
    ( (t (:inherit variable-pitch
          :height 0.8
-         :foreground ,dark-cyan
+         :strike-through t
          ) ) )
    )
  `(org-agenda-current-time
@@ -481,9 +477,7 @@ Styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up 
    ( (t (:foreground ,slate) ) )
    )
  `(org-agenda-done
-
-   ( (t (:strike-through t
-         :foreground ,doc) ) ))
+   ( (t (:strike-through t) ) ))
  `(org-ellipsis
 
    ( (t (:underline nil
@@ -506,6 +500,8 @@ Styles inspired by [[https://lepisma.xyz/2017/10/28/ricing-org-mode/][Ricing up 
    ( (t (:background ,bg-white) ) ))
  )
 #+end_src
+
+#+RESULTS:
 
 ** Org Agenda and GTD
 
@@ -867,6 +863,14 @@ Roam supports capture functionality. We need to escape these by prepending a ','
 (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 #+end_src
 
+* AUCTeX
+** Appearance
+Remove folding by default
+#+begin_src elisp
+
+(add-hook 'LaTeX-mode-hook (lambda ()
+                             (TeX-fold-mode 1)))
+#+end_src
 * File templates
 
 This is the place where the file templates live
