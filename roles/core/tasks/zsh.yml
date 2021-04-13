@@ -21,12 +21,13 @@
     # for users with insecure umasks (e.g., "002", allowing group writability).
     mode: 'go-w'
  
-- name: set default shell
+- name: set default shell optionally
   block:
-    become: yes
-    user:
-      name: "{{ system_username }}"
-      shell: /usr/bin/zsh
+    - name: set default shell
+      become: yes
+      user:
+        name: "{{ system_username }}"
+        shell: /usr/bin/zsh
   ignore_errors: yes
 
 - name: link .zshrc
