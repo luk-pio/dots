@@ -15,15 +15,15 @@
         chdir: "~{{ system_username }}"
         creates: "{{ system_username }}/.dropbox-dist/dropboxd"
 
-    - name: dropbox | Copy the unit file
-      template:
-        src: dropbox.service
-        dest: "~{{ system_username }}/.config/systemd/user/dropbox.service"
-
     - name: Make systemd dir for enabled services
       file:
         path: "~{{ system_username }}/.config/systemd/user/multi-user.target.wants"
         state: directory
+
+    - name: dropbox | Copy the unit file
+      template:
+        src: dropbox.service
+        dest: "~{{ system_username }}/.config/systemd/user/dropbox.service"
 
     - name: link service file
       file:
