@@ -22,10 +22,12 @@
     mode: 'go-w'
  
 - name: set default shell
-  become: yes
-  user:
-    name: "{{ system_username }}"
-    shell: /usr/bin/zsh
+  block:
+    become: yes
+    user:
+      name: "{{ system_username }}"
+      shell: /usr/bin/zsh
+  ignore_errors: yes
 
 - name: link .zshrc
   file:
