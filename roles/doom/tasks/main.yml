@@ -54,45 +54,6 @@
     state: link
     force: true
 
-- name: make systemd dir
-  file:
-    path: "~{{ system_username }}/.config/systemd/user"
-    state: directory
-    mode: "0775"
-    
-- name: cp doom service file
-  copy:
-    src: "{{ repo_dir }}/roles/doom/files/emacs.service"
-    dest: "~{{ system_username }}/.config/systemd/user/emacs.service"
-
-- name: Make systemd dir for enabled services
-  file:
-    path: "~{{ system_username }}/.config/systemd/user/default.target.wants"
-    state: directory
-
-- name: link service file
-  file:
-    src: "~{{ system_username }}/.config/systemd/user/emacs.service"
-    path: "~{{ system_username }}/.config/systemd/user/default.target.wants/emacs.service"
-    state: link
-    force: true
-
-- name: systemd reread configs
-  become: yes
-  become_user: "{{ system_username }}"
-  systemd:
-    scope: user
-    daemon_reload: yes
-
-- name: start the emacs service
-  become: yes
-  become_user: "{{ system_username }}"
-  systemd:
-    scope: user
-    name: emacs
-    state: started
-    enabled: yes
-
 - name: update desktop file icon path
   replace:
     path: "{{ repo_dir }}/roles/doom/files/doom.desktop"

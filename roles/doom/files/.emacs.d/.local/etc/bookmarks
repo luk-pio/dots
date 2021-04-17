@@ -103,10 +103,10 @@
  (rear-context-string)
  (position . 1))
 ("org-capture-last-stored"
- (filename . "~/Dropbox/org/gtd/inbox.org")
- (front-context-string . "* TODO [[https:/")
- (rear-context-string . " of MixNMatch]]\n")
- (position . 1974))
+ (filename . "~/Dropbox/org/roam/amino_acids.org")
+ (front-context-string . "#+title: amino a")
+ (rear-context-string)
+ (position . 1))
 ("aliasrc"
  (filename . "~/dotfs/.config/aliasrc")
  (front-context-string . "export GOPATH=$H")

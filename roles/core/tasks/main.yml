@@ -12,41 +12,12 @@
     url: https://raw.githubusercontent.com/pyrho/hack-font-ligature-nerd-font/master/font/Hack%20Regular%20Nerd%20Font%20Complete%20Mono.ttf 
     dest: /usr/share/fonts/Hack_Regular_Nerd_Font_Mono.ttf
     mode: '644'
-- name: Download et-book font
-  get_url:
-    url: https://raw.githubusercontent.com/edwardtufte/et-book/gh-pages/et-book/et-book-semi-bold-old-style-figures/et-book-semi-bold-old-style-figures.ttf
-    dest: /usr/share/fonts/et-book-semi-bold-old-style-figures.ttf
-    mode: '644'
 
-- name: Download et-book font
-  get_url:
-    url: https://raw.githubusercontent.com/edwardtufte/et-book/gh-pages/et-book/et-book-bold-line-figures/et-book-bold-line-figures.ttf
-    dest: /usr/share/fonts/et-book-bold-line-figures.ttf
-    mode: '644'
-
-- name: Download et-book font
-  get_url:
-    url: https://raw.githubusercontent.com/edwardtufte/et-book/gh-pages/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.ttf
-    dest: /usr/share/fonts/et-book-display-italic-old-style-figures.ttf
-    mode: '644'
-
-- name: Download et-book font
-  get_url:
-    url: https://raw.githubusercontent.com/edwardtufte/et-book/gh-pages/et-book/et-book-roman-line-figures/et-book-roman-line-figures.ttf
-    dest: /usr/share/fonts/et-book-roman-line-figures.ttf
-    mode: '644'
-
-- name: Download et-book font
-  get_url:
-    url: https://raw.githubusercontent.com/edwardtufte/et-book/gh-pages/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.ttf
-    dest: /usr/share/fonts/et-book-roman-old-style-figures.ttf
-    mode: '644'
-
-- name: Download et-book font
-  get_url:
-    url: https://raw.githubusercontent.com/edwardtufte/et-book/gh-pages/et-book/et-book-semi-bold-old-style-figures/et-book-semi-bold-old-style-figures.ttf
-    dest: /usr/share/fonts/et-book-semi-bold-old-style-figures.ttf
-    mode: '644'
+- name: Download Newsreader fonts
+  unarchive:
+    src: https://fonts.google.com/download\?family\=Newsreader
+    dest: /usr/share/fonts
+    remote_src: yes
 
 - name: link aliases
   file:
