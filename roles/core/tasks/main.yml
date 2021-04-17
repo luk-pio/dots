@@ -15,7 +15,7 @@
 
 - name: Download Newsreader fonts
   unarchive:
-    src: https://fonts.google.com/download\?family\=Newsreader
+    src: https://fonts.google.com/download?family=Newsreader
     dest: /usr/share/fonts
     remote_src: yes
 
