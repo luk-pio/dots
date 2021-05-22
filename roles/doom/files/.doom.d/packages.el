@@ -50,9 +50,9 @@
                                         ;(unpin! t)
 (package! evil-replace-with-register
   :recipe (:host github :repo "Dewdrops/evil-ReplaceWithRegister"))
-(package! spacemacs-theme)
-(package! org-roam-server :recipe (:host github :repo "org-roam/org-roam-server" :files ("*")))
 
 (package! org-ref)
 
 (package! mixed-pitch)
+
+(package! vue-mode)

@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("spooky_story"
+(("dots"
+ (filename . "~/dots/")
+ (front-context-string . ".idea\n  drwxrwxr")
+ (rear-context-string . "0K kwi 19 08:24 ")
+ (position . 144))
+("peach"
+ (filename . "~/Workspace/peach/")
+ (front-context-string . ".env.prod\n  -rw-")
+ (rear-context-string . "37 maj 16 07:31 ")
+ (position . 573))
+("spooky_story"
  (filename . "~/Workspace/spooky_story/")
  (front-context-string)
  (rear-context-string . "0K mar  6 00:21 ")
@@ -103,8 +113,8 @@
  (rear-context-string)
  (position . 1))
 ("org-capture-last-stored"
- (filename . "~/Dropbox/org/roam/amino_acids.org")
- (front-context-string . "#+title: amino a")
+ (filename . "~/Dropbox/org/roam/clean_code.org")
+ (front-context-string . "#+title: clean c")
  (rear-context-string)
  (position . 1))
 ("aliasrc"

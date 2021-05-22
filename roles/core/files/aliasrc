@@ -33,10 +33,6 @@ export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export VIRTUALENVWRAPPER_VIRTUALENV="/usr/local/bin/virtualenv"
 source "/usr/local/bin/virtualenvwrapper.sh"
 
-# Work
-alias a%cdsp='~/PycharmProjects/CDSP'
-alias a%dbaasha='~/PycharmProjects/CDSP/cdsp/dbaas-ha'
-alias restart-cdsp='source $HOME/Workspace/cdsp-restart.sh'
-alias a%api='~/PycharmProjects/CDSP/cdsp-api'
-alias a%config='~/Workspace/configs/'
+# Docker
+alias docker-stop-all='docker stop $(docker ps -q)'
 
